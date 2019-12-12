@@ -20,7 +20,8 @@ def movies():
                     "image_url": "https://ksassets.timeincuk.net/wp/uploads/sites/55/2018/02/KXC1W2-920x584.jpg"
                     }
                     """
-    return render_template('movie.html', movie={})
+    parsed_json = json.loads(json_string)
+    return render_template('movie.html', movie=parsed_json)
 
 
 @app.route('/tvshows')
@@ -57,8 +58,8 @@ def tv_shows():
     """
     # Write code here to take the `json_string` and return list of movies to the user
 
-
-    return render_template('tv_shows.html')
+    parsed_json = json.loads(json_string)
+    return render_template('tv_shows.html', tv_shows=parsed_json)
 
 
 ############################
@@ -66,6 +67,9 @@ def tv_shows():
 ############################
 @app.route('/dogs')
 def dog_breeds():
+    response = requests.get(" https://dog.ceo/api/breeds/list/all")
+    parsed_content = json.loads(response.content)
+    message = parsed_content["message"]
     """
     If you visit https://dog.ceo/api/breeds/list/all 
     a list of all dog breeds is returned. Try this in your browser! (Chrome/firefox)
